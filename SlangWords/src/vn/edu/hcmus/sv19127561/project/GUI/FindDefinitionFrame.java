@@ -2,7 +2,6 @@ package vn.edu.hcmus.sv19127561.project.GUI;
 
 import vn.edu.hcmus.sv19127561.project.SlangWords;
 
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -12,10 +11,10 @@ import java.awt.event.ActionListener;
 /**
  * vn.edu.hcmus.sv19127561.project.GUI
  * Created by Thinh
- * Date 12/19/2021 - 10:41 PM
+ * Date 12/20/2021 - 8:47 AM
  * Description: ...
  */
-public class FindSlangFrame extends JFrame implements ActionListener {
+public class FindDefinitionFrame extends JFrame implements ActionListener {
     JButton back;
     JButton search;
     JLabel searchLb;
@@ -29,14 +28,14 @@ public class FindSlangFrame extends JFrame implements ActionListener {
 
     JTable table;
 
-    FindSlangFrame(SlangWords sw){
+    FindDefinitionFrame(SlangWords sw){
         slangWords = sw;
-        label = new JLabel("Search by slang");
+        label = new JLabel("Search by definition");
         back = new JButton("BACK");
         back.addActionListener(this);
         search = new JButton("SEARCH");
         search.addActionListener(this);
-        searchLb = new JLabel("Slang");
+        searchLb = new JLabel("Definition");
         searchTf = new JTextField(20);
 
         JPanel searchPanel = new JPanel();
@@ -55,7 +54,7 @@ public class FindSlangFrame extends JFrame implements ActionListener {
 
         // Setting Frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Search By Slang");
+        this.setTitle("Search By Definition");
         this.setVisible(true);
         this.setSize(700, 700);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -66,10 +65,12 @@ public class FindSlangFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == search){
+            System.out.println("Search");
             this.clearTable();
-            String slang = searchTf.getText();
-            slangWords.addHistory(slang);
-            String[][] result = slangWords.search_by_slang(slang);
+            String definition = searchTf.getText();
+            slangWords.addHistory(definition);
+            String[][] result = slangWords.search_by_definition(definition);
+
             if (result != null) {
                 for (int i = 0; i < result.length; i++) {
                     String ss[] = result[i];

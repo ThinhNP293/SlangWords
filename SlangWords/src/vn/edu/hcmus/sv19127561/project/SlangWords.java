@@ -11,8 +11,17 @@ import java.util.*;
  * Description: ...
  */
 public class SlangWords {
-    private Map<String, ArrayList<String>> map = new TreeMap<>();
+    private Map<String, ArrayList<String>> map = new HashMap<>();
     private ArrayList<String> history = new ArrayList<>();
+
+    public SlangWords(){
+
+    }
+
+
+    public void addHistory(String str){
+        history.add(str);
+    }
 
     //Map<String, SlangWords> map = new HashMap<String, SlangWords>();
 
@@ -71,24 +80,49 @@ public class SlangWords {
 
     public String[][] search_by_slang(String slang){
         ArrayList<String> definition = map.get(slang);
+        if (definition == null)
+            return null;
         String result[][] = new String[definition.size()][3];
         for(int i = 0; i < definition.size(); i++){
-            result[i][0] = String.valueOf(i);
+            result[i][0] = String.valueOf(i + 1);
             result[i][1] = slang;
             result[i][2] = definition.get(i);
         }
         return result;
     }
 
-    public void search_by_definition(String definition){
+    public String[][] search_by_definition(String definition){
+        ArrayList<String> key = new ArrayList<>();
+        ArrayList<String> def = new ArrayList<>();
         for(Map.Entry<String, ArrayList<String>> entry : map.entrySet())
         {
-            if(entry.getValue().contains(definition))
-                System.out.println(entry.getKey());
+            ArrayList<String> definitionList = entry.getValue();
+            for (int i = 0; i < definitionList.size(); i++) {
+                if (definitionList.get(i).contains(definition)) {
+                    System.out.println(entry.getKey());
+                    key.add(entry.getKey());
+                    def.add(definitionList.get(i));
+                }
+            }
         }
+        String result[][] = new String[key.size()][3];
+
+        for (int i = 0; i < key.size(); i++) {
+            result[i][0] = String.valueOf(i + 1);
+            result[i][1] = key.get(i);
+            result[i][2] = def.get(i);
+            System.out.println(result[i][1]);
+        }
+
+        return result;
     }
 
-    public void add_slang_words(){
-
+    public void add_slang_words(String slang, String definition, int opt){
+        ArrayList<String> definitionList = new ArrayList<>();
+        if (opt == 1) { //Duplicate
+            definitionList = map.get(slang);
+        }
+        definitionList.add(definition);
+        map.put(slang, definitionList);
     }
 }

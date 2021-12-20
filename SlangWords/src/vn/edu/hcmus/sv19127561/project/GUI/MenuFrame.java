@@ -25,7 +25,10 @@ public class MenuFrame extends JFrame implements ActionListener {
     JButton slang_quiz;
     JButton definition_quiz;
 
-    public MenuFrame() {
+    SlangWords slangWords;
+
+    public MenuFrame(SlangWords sw) {
+        slangWords = sw;
         // A Label
         JLabel label = new JLabel("Slang Words");
         label.setAlignmentX(CENTER_ALIGNMENT);
@@ -101,10 +104,25 @@ public class MenuFrame extends JFrame implements ActionListener {
         if (e.getSource() == find_by_slang){
             this.dispose();
             try {
-                new FindSlangFrame();
+                new FindSlangFrame(slangWords);
             } catch (Exception e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
+            }
+        }
+        else if (e.getSource() == find_by_definition){
+            this.dispose();
+            try {
+                new FindDefinitionFrame(slangWords);
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        else if (e.getSource() == add){
+            this.dispose();
+            try {
+                new AddSlangFrame(slangWords);
+            } catch (Exception e2) {
+                e2.printStackTrace();
             }
         }
     }
