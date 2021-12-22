@@ -125,5 +125,13 @@ public class MenuFrame extends JFrame implements ActionListener {
                 e2.printStackTrace();
             }
         }
+        else if (e.getSource() == edit){
+            this.dispose();
+            try {
+                new EditSlangFrame(slangWords);
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
     }
 }

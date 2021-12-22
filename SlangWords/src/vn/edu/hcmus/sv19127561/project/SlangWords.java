@@ -125,4 +125,14 @@ public class SlangWords {
         definitionList.add(definition);
         map.put(slang, definitionList);
     }
+
+    public void edit_slang_words(String slang, String old_definition, String new_definition){
+        ArrayList<String> definitionList;
+        definitionList = map.get(slang);
+        for (int i = 0; i < definitionList.size(); i++){
+            if (definitionList.get(i).equals(old_definition)){
+                definitionList.set(i, new_definition);
+            }
+        }
+    }
 }
