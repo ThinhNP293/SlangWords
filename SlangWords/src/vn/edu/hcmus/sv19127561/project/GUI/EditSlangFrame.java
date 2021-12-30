@@ -112,7 +112,6 @@ public class EditSlangFrame extends JFrame implements ActionListener, TableModel
             slangWords.edit_slang_words((String) table.getValueAt(row, 1), old_definition, (String) table.getValueAt(row, 2));
             JOptionPane.showMessageDialog(this, "Edit Successfully!");
         }
-
     }
 
     @Override

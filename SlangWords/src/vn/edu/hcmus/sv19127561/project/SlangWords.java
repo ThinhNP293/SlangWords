@@ -78,6 +78,27 @@ public class SlangWords {
         }
     }
 
+    public String[][] show_All_Slang(){
+        ArrayList<String> key = new ArrayList<>();
+        ArrayList<String> def = new ArrayList<>();
+        for(Map.Entry<String, ArrayList<String>> entry : map.entrySet()){
+            ArrayList<String> definitionList = entry.getValue();
+            for (int i = 0; i < definitionList.size(); i++) {
+                key.add(entry.getKey());
+                def.add(definitionList.get(i));
+            }
+        }
+        String result[][] = new String[key.size()][3];
+
+        for (int i = 0; i < key.size(); i++) {
+            result[i][0] = String.valueOf(i + 1);
+            result[i][1] = key.get(i);
+            result[i][2] = def.get(i);
+        }
+
+        return result;
+    }
+
     public String[][] search_by_slang(String slang){
         ArrayList<String> definition = map.get(slang);
         if (definition == null)
@@ -99,7 +120,6 @@ public class SlangWords {
             ArrayList<String> definitionList = entry.getValue();
             for (int i = 0; i < definitionList.size(); i++) {
                 if (definitionList.get(i).contains(definition)) {
-                    System.out.println(entry.getKey());
                     key.add(entry.getKey());
                     def.add(definitionList.get(i));
                 }
@@ -111,7 +131,6 @@ public class SlangWords {
             result[i][0] = String.valueOf(i + 1);
             result[i][1] = key.get(i);
             result[i][2] = def.get(i);
-            System.out.println(result[i][1]);
         }
 
         return result;
@@ -134,5 +153,17 @@ public class SlangWords {
                 definitionList.set(i, new_definition);
             }
         }
+    }
+
+    public void delete_slang_words(String slang, String definition){
+        ArrayList<String> definitionList;
+        definitionList = map.get(slang);
+        for (int i = 0; i < definitionList.size(); i++){
+            if (definitionList.get(i).equals(definition)){
+                definitionList.remove(i);
+            }
+        }
+        if (definitionList.size() == 0) map.remove(slang);
+        else map.put(slang, definitionList);
     }
 }

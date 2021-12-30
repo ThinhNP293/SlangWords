@@ -103,35 +103,23 @@ public class MenuFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == find_by_slang){
             this.dispose();
-            try {
-                new FindSlangFrame(slangWords);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
+            new FindSlangFrame(slangWords);
         }
         else if (e.getSource() == find_by_definition){
             this.dispose();
-            try {
-                new FindDefinitionFrame(slangWords);
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+            new FindDefinitionFrame(slangWords);
         }
         else if (e.getSource() == add){
             this.dispose();
-            try {
-                new AddSlangFrame(slangWords);
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+            new AddSlangFrame(slangWords);
         }
         else if (e.getSource() == edit){
             this.dispose();
-            try {
-                new EditSlangFrame(slangWords);
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+            new EditSlangFrame(slangWords);
+        }
+        else if (e.getSource() == delete){
+            this.dispose();
+            new DeleteSlangFrame(slangWords);
         }
     }
 }
