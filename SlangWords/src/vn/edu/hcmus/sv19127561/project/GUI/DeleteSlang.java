@@ -16,7 +16,7 @@ import java.util.EventObject;
  * Date 12/22/2021 - 7:20 PM
  * Description: ...
  */
-public class DeleteSlangFrame extends JFrame implements ActionListener, ListSelectionListener {
+public class DeleteSlang extends JFrame implements ActionListener, ListSelectionListener {
     JButton back;
     JButton searchSlang;
     JButton searchDefinition;
@@ -35,7 +35,7 @@ public class DeleteSlangFrame extends JFrame implements ActionListener, ListSele
     String slang;
     String definition;
 
-    DeleteSlangFrame(SlangWords sw){
+    DeleteSlang(SlangWords sw){
         slangWords = sw;
         label = new JLabel();
         label.setText("Delete Slang Words");

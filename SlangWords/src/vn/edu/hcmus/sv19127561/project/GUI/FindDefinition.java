@@ -3,20 +3,18 @@ package vn.edu.hcmus.sv19127561.project.GUI;
 import vn.edu.hcmus.sv19127561.project.SlangWords;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EventObject;
 
 /**
  * vn.edu.hcmus.sv19127561.project.GUI
  * Created by Thinh
- * Date 12/22/2021 - 7:20 PM
+ * Date 12/20/2021 - 8:47 AM
  * Description: ...
  */
-public class EditSlangFrame extends JFrame implements ActionListener, TableModelListener, ListSelectionListener {
+public class FindDefinition extends JFrame implements ActionListener {
     JButton back;
     JButton search;
     JLabel searchLb;
@@ -29,16 +27,15 @@ public class EditSlangFrame extends JFrame implements ActionListener, TableModel
     SlangWords slangWords;
 
     JTable table;
-    String old_definition;
 
-    EditSlangFrame(SlangWords sw){
+    FindDefinition(SlangWords sw){
         slangWords = sw;
-        label = new JLabel("Edit Slang Words");
+        label = new JLabel("Search by definition");
         back = new JButton("BACK");
         back.addActionListener(this);
         search = new JButton("SEARCH");
         search.addActionListener(this);
-        searchLb = new JLabel("Slang");
+        searchLb = new JLabel("Definition");
         searchTf = new JTextField(20);
 
         JPanel searchPanel = new JPanel();
@@ -48,13 +45,7 @@ public class EditSlangFrame extends JFrame implements ActionListener, TableModel
 
         // Table
         table = new JTable(tableModel);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getModel().addTableModelListener(this);
-        table.getSelectionModel().addListSelectionListener(this::valueChanged);
-
         JScrollPane scrollPane = new JScrollPane(table);
-
-
 
         this.setLayout(new BorderLayout());
         this.add(searchPanel, BorderLayout.PAGE_START);
@@ -63,7 +54,7 @@ public class EditSlangFrame extends JFrame implements ActionListener, TableModel
 
         // Setting Frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Search By Slang");
+        this.setTitle("Search By Definition");
         this.setVisible(true);
         this.setSize(700, 700);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -74,10 +65,12 @@ public class EditSlangFrame extends JFrame implements ActionListener, TableModel
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == search){
+            System.out.println("Search");
             this.clearTable();
-            String slang = searchTf.getText();
-            slangWords.addHistory(slang);
-            String[][] result = slangWords.search_by_slang(slang);
+            String definition = searchTf.getText();
+            slangWords.addHistory(definition);
+            String[][] result = slangWords.search_by_definition(definition);
+
             if (result != null) {
                 for (int i = 0; i < result.length; i++) {
                     String ss[] = result[i];
@@ -96,31 +89,8 @@ public class EditSlangFrame extends JFrame implements ActionListener, TableModel
 
     public void clearTable() {
         int rowCount = tableModel.getRowCount();
-        System.out.println(rowCount);
         for (int i = rowCount - 1; i >= 0; i--) {
             tableModel.removeRow(i);
-        }
-    }
-
-
-
-    @Override
-    public void tableChanged(TableModelEvent e) {
-        int row = table.getSelectedRow();
-        int col = table.getSelectedColumn();
-        if (row >= 0 && table.getRowCount() > 0) {
-            slangWords.edit_slang_words((String) table.getValueAt(row, 1), old_definition, (String) table.getValueAt(row, 2));
-            JOptionPane.showMessageDialog(this, "Edit Successfully!");
-        }
-    }
-
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-        if (table.getRowCount() > 0) {
-            int row = table.getSelectedRow();
-            if (row >= 0){
-                old_definition = table.getModel().getValueAt(row, 2).toString();
-            }
         }
     }
 }

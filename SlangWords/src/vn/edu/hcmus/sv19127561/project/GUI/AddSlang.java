@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Date 12/20/2021 - 11:44 AM
  * Description: ...
  */
-public class AddSlangFrame extends JFrame implements ActionListener {
+public class AddSlang extends JFrame implements ActionListener {
     private JButton add;
     private JTextField slangTf;
     private JTextField definitionTf;
@@ -22,7 +22,7 @@ public class AddSlangFrame extends JFrame implements ActionListener {
 
     SlangWords slangWords;
 
-    public AddSlangFrame(SlangWords sw){
+    public AddSlang(SlangWords sw){
         slangWords = sw;
         JLabel slangLb = new JLabel("Slang       ");
         JLabel definitionLb = new JLabel("Definition");

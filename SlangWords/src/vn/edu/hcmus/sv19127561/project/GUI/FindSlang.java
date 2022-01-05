@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  * Date 12/19/2021 - 10:41 PM
  * Description: ...
  */
-public class FindSlangFrame extends JFrame implements ActionListener {
+public class FindSlang extends JFrame implements ActionListener {
     JButton back;
     JButton search;
     JLabel searchLb;
@@ -29,7 +29,7 @@ public class FindSlangFrame extends JFrame implements ActionListener {
 
     JTable table;
 
-    FindSlangFrame(SlangWords sw){
+    FindSlang(SlangWords sw){
         slangWords = sw;
         label = new JLabel("Search by slang");
         back = new JButton("BACK");

@@ -103,23 +103,40 @@ public class MenuFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == find_by_slang){
             this.dispose();
-            new FindSlangFrame(slangWords);
+            new FindSlang(slangWords);
         }
         else if (e.getSource() == find_by_definition){
             this.dispose();
-            new FindDefinitionFrame(slangWords);
+            new FindDefinition(slangWords);
         }
         else if (e.getSource() == add){
             this.dispose();
-            new AddSlangFrame(slangWords);
+            new AddSlang(slangWords);
         }
         else if (e.getSource() == edit){
             this.dispose();
-            new EditSlangFrame(slangWords);
+            new EditSlang(slangWords);
         }
         else if (e.getSource() == delete){
             this.dispose();
-            new DeleteSlangFrame(slangWords);
+            new DeleteSlang(slangWords);
         }
+        else if (e.getSource() == random){
+            this.dispose();
+            new Random(slangWords);
+        }
+        else if (e.getSource() == slang_quiz){
+            this.dispose();
+            new SlangQuiz(slangWords);
+        }
+        else if (e.getSource() == reset){
+            int n = JOptionPane.showConfirmDialog(this, "Do you really want to reset Slang Word?", "Confirm Reset",
+                    JOptionPane.YES_NO_OPTION);
+            if (n == 0) {
+                slangWords.load_slang_words("slang.txt");
+                JOptionPane.showMessageDialog(this, "Reset successfully!");
+            }
+        }
+
     }
 }
