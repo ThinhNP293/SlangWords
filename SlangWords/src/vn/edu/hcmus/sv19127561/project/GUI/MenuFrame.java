@@ -29,11 +29,12 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     public MenuFrame(SlangWords sw) {
         slangWords = sw;
-        // A Label
-        JLabel label = new JLabel("Slang Words");
+
+        JLabel label = new JLabel("Slang Words Dictionary");
+        label.setFont(new Font("Arial", Font.PLAIN, 25));
         label.setAlignmentX(CENTER_ALIGNMENT);
-        // label.addMouseListener(this);
-        // A Grid
+
+
         find_by_slang = new JButton("1. Find Definition by Slang");
         find_by_slang.addActionListener(this);
 
@@ -66,7 +67,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         JPanel center = new JPanel();
         // panelCenter.setBackground(Color.gray);
-        center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
+        center.setLayout(new GridLayout(10, 1, 20, 20));
         center.add(find_by_slang);
         center.add(find_by_definition);
         center.add(history);
@@ -79,10 +80,6 @@ public class MenuFrame extends JFrame implements ActionListener {
         center.add(definition_quiz);
 
 
-        Dimension size2 = new Dimension(600, 500);
-        //center.setMaximumSize(size2);
-        //center.setPreferredSize(size2);
-        //center.setMinimumSize(size2);
         Container con = this.getContentPane();
         con.setLayout(new BoxLayout(con, BoxLayout.Y_AXIS));
         con.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -94,7 +91,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Menu Window");
         this.setVisible(true);
-        this.setSize(700, 700);
+        this.setSize(500, 700);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }

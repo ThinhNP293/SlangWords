@@ -28,7 +28,7 @@ public class SlangQuiz extends JFrame implements ActionListener {
     SlangQuiz(SlangWords sw){
         slangWords = sw;
         label = new JLabel();
-        label.setText("On this day slang word");
+        label.setText("Choose definition for this Slang");
         label.setFont(new Font("Arial", Font.PLAIN, 25));
         label.setAlignmentX(CENTER_ALIGNMENT);
 
