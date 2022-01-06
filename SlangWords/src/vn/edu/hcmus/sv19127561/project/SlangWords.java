@@ -22,8 +22,10 @@ public class SlangWords {
 
 
     public void addHistory(String str){
-        history.add(str);
+        history.add(0, str);
     }
+
+    public ArrayList<String> getHistory(){ return history; }
 
     //Map<String, SlangWords> map = new HashMap<String, SlangWords>();
 
@@ -102,15 +104,26 @@ public class SlangWords {
     }
 
     public String[][] search_by_slang(String slang){
-        ArrayList<String> definition = map.get(slang);
-        if (definition == null)
-            return null;
-        String result[][] = new String[definition.size()][3];
-        for(int i = 0; i < definition.size(); i++){
-            result[i][0] = String.valueOf(i + 1);
-            result[i][1] = slang;
-            result[i][2] = definition.get(i);
+        ArrayList<String> key = new ArrayList<>();
+        ArrayList<String> def = new ArrayList<>();
+        for(Map.Entry<String, ArrayList<String>> entry : map.entrySet()) {
+            ArrayList<String> definition;
+            if (entry.getKey().toLowerCase().contains(slang.toLowerCase())) {
+                definition = entry.getValue();
+                for (String s : definition) {
+                    key.add(entry.getKey());
+                    def.add(s);
+                }
+            }
         }
+        String result[][] = new String[key.size()][3];
+
+        for (int i = 0; i < key.size(); i++) {
+            result[i][0] = String.valueOf(i + 1);
+            result[i][1] = key.get(i);
+            result[i][2] = def.get(i);
+        }
+
         return result;
     }
 
@@ -121,7 +134,7 @@ public class SlangWords {
         {
             ArrayList<String> definitionList = entry.getValue();
             for (int i = 0; i < definitionList.size(); i++) {
-                if (definitionList.get(i).contains(definition)) {
+                if (definitionList.get(i).toLowerCase().contains(definition.toLowerCase())) {
                     key.add(entry.getKey());
                     def.add(definitionList.get(i));
                 }
