@@ -16,13 +16,13 @@ import java.util.EventObject;
  * Date 12/22/2021 - 7:20 PM
  * Description: ...
  */
-public class EditSlang extends JFrame implements ActionListener, TableModelListener, ListSelectionListener {
+public class EditSlang extends JFrame implements ActionListener, ListSelectionListener {
     JButton back;
-    JButton search;
+    JButton searchSlang;
     JLabel searchLb;
     JTextField searchTf;
     JLabel label;
-    JComboBox option;
+    String old_definition;
 
     String col[] = {"No.", "Slang", "Definition"};
     DefaultTableModel tableModel = new DefaultTableModel(col, 0);
@@ -30,98 +30,147 @@ public class EditSlang extends JFrame implements ActionListener, TableModelListe
     SlangWords slangWords;
 
     JTable table;
-    String old_definition;
 
-    EditSlang(SlangWords sw){
+    JLabel slangLb;
+    JLabel definitionLb;
+    JTextField slangTf;
+    JTextField definitionTf;
+    JButton editBt;
+
+    JComboBox option;
+
+    EditSlang(SlangWords sw) {
         slangWords = sw;
-        label = new JLabel("Edit Slang Words");
+        label = new JLabel();
+        label.setText("Edit Slang Words");
+        label.setFont(new Font("Arial", Font.PLAIN, 25));
+        label.setAlignmentX(CENTER_ALIGNMENT);
+
         back = new JButton("BACK");
         back.addActionListener(this);
-        search = new JButton("SEARCH");
-        search.addActionListener(this);
-        searchLb = new JLabel("Slang");
-        searchTf = new JTextField(20);
+        searchLb = new JLabel("Search");
+        searchTf = new JTextField(25);
+
+        String opt[] = {"Slang", "Definition", "Show All"};
+        option = new JComboBox(opt);
+
+        searchSlang = new JButton("SEARCH");
+        searchSlang.addActionListener(this);
 
         JPanel searchPanel = new JPanel();
         searchPanel.add(searchLb);
         searchPanel.add(searchTf);
-        searchPanel.add(search);
+        searchPanel.add(searchSlang);
+        searchPanel.add(option);
+
+        JPanel editSlang = new JPanel();
+        JPanel editDefinition = new JPanel();
+        slangLb = new JLabel("Slang       ");
+        definitionLb = new JLabel("Definition");
+        slangTf = new JTextField(30);
+        slangTf.setEnabled(false);
+        definitionTf = new JTextField(30);
+        editBt = new JButton("SAVE");
+        editBt.addActionListener(this);
+        editBt.setEnabled(false);
+        editSlang.add(slangLb);
+        editSlang.add(slangTf);
+        editDefinition.add(definitionLb);
+        editDefinition.add(definitionTf);
 
         // Table
         table = new JTable(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getModel().addTableModelListener(this);
         table.getSelectionModel().addListSelectionListener(this::valueChanged);
 
         JScrollPane scrollPane = new JScrollPane(table);
 
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(back);
+        buttonPanel.add(editBt);
 
 
-        this.setLayout(new BorderLayout());
-        this.add(searchPanel, BorderLayout.PAGE_START);
-        this.add(scrollPane, BorderLayout.CENTER);
-        this.add(back, BorderLayout.PAGE_END);
+        this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        this.add(label);
+        this.add(searchPanel);
+        this.add(editSlang);
+        this.add(editDefinition);
+        this.add(scrollPane);
+        this.add(buttonPanel);
 
         // Setting Frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Search By Slang");
+        this.setTitle("Edit Slang Words");
         this.setVisible(true);
-        this.setSize(700, 700);
+        this.setSize(600, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
 
     @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (table.getRowCount() > 0) {
+            int row = table.getSelectedRow();
+            if (row >= 0){
+                slangTf.setText(table.getModel().getValueAt(row, 1).toString());
+                definitionTf.setText(table.getModel().getValueAt(row, 2).toString());
+                old_definition = table.getModel().getValueAt(row, 2).toString();
+                editBt.setEnabled(true);
+            }
+        }
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == search){
+        if (e.getSource() == searchSlang){
+            editBt.setEnabled(false);
             this.clearTable();
             String slang = searchTf.getText();
-            slangWords.addHistory(slang);
-            String[][] result = slangWords.search_by_slang(slang);
-            if (result != null) {
+            searchTf.setText("");
+
+            if (option.getSelectedIndex() == 0 || option.getSelectedIndex() == 1) {
+                if (slang.equals("")) {
+                    JOptionPane.showMessageDialog(this, "Input field blank");
+                } else {
+                    String[][] result = new String[0][];
+                    if (option.getSelectedIndex() == 0)
+                        result = slangWords.search_by_slang(slang);
+                    else if (option.getSelectedIndex() == 1)
+                        result = slangWords.search_by_definition(slang);
+                    if (result.length != 0) {
+                        for (int i = 0; i < result.length; i++) {
+                            String ss[] = result[i];
+                            tableModel.addRow(ss);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Not found!");
+                    }
+                }
+            }
+            else {
+                String[][] result = slangWords.show_All_Slang();
                 for (int i = 0; i < result.length; i++) {
                     String ss[] = result[i];
                     tableModel.addRow(ss);
                 }
             }
-            else {
-                JOptionPane.showMessageDialog(this, "Not found!");
-            }
+        }
+        else if (e.getSource() == editBt){
+            slangWords.edit_slang_words(slangTf.getText(), old_definition, definitionTf.getText());
+            JOptionPane.showMessageDialog(this, "Edit successfully!");
         }
         else if (e.getSource() == back){
             this.dispose();
             new MenuFrame(slangWords);
         }
-    }
 
+    }
     public void clearTable() {
         int rowCount = tableModel.getRowCount();
         System.out.println(rowCount);
         for (int i = rowCount - 1; i >= 0; i--) {
             tableModel.removeRow(i);
-        }
-    }
-
-
-
-    @Override
-    public void tableChanged(TableModelEvent e) {
-        int row = table.getSelectedRow();
-        int col = table.getSelectedColumn();
-        if (row >= 0 && table.getRowCount() > 0) {
-            slangWords.edit_slang_words((String) table.getValueAt(row, 1), old_definition, (String) table.getValueAt(row, 2));
-            JOptionPane.showMessageDialog(this, "Edit Successfully!");
-        }
-    }
-
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-        if (table.getRowCount() > 0) {
-            int row = table.getSelectedRow();
-            if (row >= 0){
-                old_definition = table.getModel().getValueAt(row, 2).toString();
-            }
         }
     }
 }

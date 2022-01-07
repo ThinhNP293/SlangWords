@@ -65,7 +65,7 @@ public class AddSlang extends JFrame implements ActionListener {
 
         // Setting Frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Menu Window");
+        this.setTitle("Add Slang Word");
         this.setVisible(true);
         this.setSize(300, 150);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -79,6 +79,8 @@ public class AddSlang extends JFrame implements ActionListener {
             String def = definitionTf.getText();
             if (slangWords.checkExist(slang) == false){
                 slangWords.add_slang_words(slang, def, 0);
+                slangTf.setText("");
+                definitionTf.setText("");
                 JOptionPane.showMessageDialog(this, "Add Successfully");
             }
             else {

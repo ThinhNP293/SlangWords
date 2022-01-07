@@ -19,6 +19,7 @@ public class Random extends JFrame implements ActionListener {
     JLabel slangOfDay;
 
     SlangWords slangWords;
+    RandomThread r;
 
     Random(SlangWords sw){
         slangWords = sw;
@@ -28,7 +29,9 @@ public class Random extends JFrame implements ActionListener {
         label.setAlignmentX(CENTER_ALIGNMENT);
 
         slangOfDay = new JLabel();
-        slangOfDay.setText(slangWords.random());
+        r = new RandomThread(slangOfDay, slangWords);
+        r.start();
+        //slangOfDay.setText(slangWords.random());
         slangOfDay.setFont(new Font("Arial", Font.PLAIN, 20));
         slangOfDay.setAlignmentX(CENTER_ALIGNMENT);
 

@@ -284,6 +284,35 @@ public class SlangWords {
         return result;
     }
 
+    public String[] DefinitionQuiz() {
+        Random generator = new Random();
+        int rand = generator.nextInt(map.size());
+        int index = 0;
+        String result[] = new String[5];
+        for (String key : map.keySet()) {
+            if (index == rand) {
+                result[0] = map.get(key).get(0);
+                int correct = generator.nextInt(4) + 1;
+                result[correct] = key;
+                for (int i = 1; i < 5; i++){
+                    if (i != correct) {
+                        int index1 = 0;
+                        rand = generator.nextInt(map.size());
+                        for (String wrongSlang : map.keySet()) {
+                            if (index1 == rand) {
+                                result[i] = wrongSlang;
+                            }
+                            index1++;
+                        }
+                    }
+                }
+                break;
+            }
+            index++;
+        }
+        return result;
+    }
+
     public boolean checkSlang(String slang, String definition){
         if (map.get(slang) != null){
             if (map.get(slang).get(0).equals(definition))

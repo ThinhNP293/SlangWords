@@ -19,8 +19,6 @@ import java.util.EventObject;
 public class DeleteSlang extends JFrame implements ActionListener, ListSelectionListener {
     JButton back;
     JButton searchSlang;
-    JButton searchDefinition;
-    JButton showAll;
     JButton delete;
     JLabel searchLb;
     JTextField searchTf;
@@ -64,7 +62,6 @@ public class DeleteSlang extends JFrame implements ActionListener, ListSelection
         searchPanel.add(searchSlang);
         searchPanel.add(option);
 
-
         // Table
         table = new JTable(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -76,10 +73,8 @@ public class DeleteSlang extends JFrame implements ActionListener, ListSelection
         buttonPanel.add(back);
         buttonPanel.add(delete);
 
+
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-        //this.add(searchPanel, BorderLayout.PAGE_START);
-        //this.add(scrollPane, BorderLayout.CENTER);
-        //this.add(buttonPanel, BorderLayout.PAGE_END);
         this.add(label);
         this.add(searchPanel);
         this.add(scrollPane);
@@ -87,7 +82,7 @@ public class DeleteSlang extends JFrame implements ActionListener, ListSelection
 
         // Setting Frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Delete Slang Frame");
+        this.setTitle("Delete Slang Words");
         this.setVisible(true);
         this.setSize(600, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

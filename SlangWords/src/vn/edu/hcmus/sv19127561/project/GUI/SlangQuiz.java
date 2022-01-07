@@ -28,7 +28,7 @@ public class SlangQuiz extends JFrame implements ActionListener {
     SlangQuiz(SlangWords sw){
         slangWords = sw;
         label = new JLabel();
-        label.setText("Choose definition for this Slang");
+        label.setText("What is Definition of this Slang?");
         label.setFont(new Font("Arial", Font.PLAIN, 25));
         label.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -89,25 +89,25 @@ public class SlangQuiz extends JFrame implements ActionListener {
             if (slangWords.checkSlang(slang.getText(), definition1.getText()) == true)
                 JOptionPane.showMessageDialog(this, "Correct Answer.");
             else
-                JOptionPane.showMessageDialog(this, "Wrong Answer.");
+                definition1.setBackground(Color.red);
         }
         else if (e.getSource() == definition2){
             if (slangWords.checkSlang(slang.getText(), definition2.getText()) == true)
                 JOptionPane.showMessageDialog(this, "Correct Answer.");
             else
-                JOptionPane.showMessageDialog(this, "Wrong Answer.");
+                definition2.setBackground(Color.red);
         }
         else if (e.getSource() == definition3){
             if (slangWords.checkSlang(slang.getText(), definition3.getText()) == true)
                 JOptionPane.showMessageDialog(this, "Correct Answer.");
             else
-                JOptionPane.showMessageDialog(this, "Wrong Answer.");
+                definition3.setBackground(Color.red);
         }
         else if (e.getSource() == definition4){
             if (slangWords.checkSlang(slang.getText(), definition4.getText()) == true)
                 JOptionPane.showMessageDialog(this, "Correct Answer.");
             else
-                JOptionPane.showMessageDialog(this, "Wrong Answer.");
+                definition4.setBackground(Color.red);
         }
         else if (e.getSource() == back){
             this.dispose();

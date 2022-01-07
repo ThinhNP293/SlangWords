@@ -35,7 +35,7 @@ public class FindSlang extends JFrame implements ActionListener {
 
     FindSlang(SlangWords sw){
         slangWords = sw;
-        label = new JLabel("Search by slang");
+        label = new JLabel("Search");
         back = new JButton("BACK");
         back.addActionListener(this);
         search = new JButton("SEARCH");
@@ -92,28 +92,31 @@ public class FindSlang extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == search){
             this.clearTable();
-            String keyword = searchTf.getText();
-            slangWords.addHistory(keyword);
-            model.add(0, keyword);
-            if (model.size() > 20){
-                model.remove(20);
-            }
-            slangWords.save_history();
-            String[][] result = new String[0][];
-            if (option.getSelectedIndex() == 0) {
-                result = slangWords.search_by_slang(keyword);
-            }
-            else if (option.getSelectedIndex() == 1){
-                result = slangWords.search_by_definition(keyword);
-            }
-            if (result != null) {
-                for (int i = 0; i < result.length; i++) {
-                    String ss[] = result[i];
-                    tableModel.addRow(ss);
-                }
+            if (searchTf.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Input field blank");
             }
             else {
-                JOptionPane.showMessageDialog(this, "Not found!");
+                String keyword = searchTf.getText();
+                slangWords.addHistory(keyword);
+                model.add(0, keyword);
+                if (model.size() > 20) {
+                    model.remove(20);
+                }
+                slangWords.save_history();
+                String[][] result = new String[0][];
+                if (option.getSelectedIndex() == 0) {
+                    result = slangWords.search_by_slang(keyword);
+                } else if (option.getSelectedIndex() == 1) {
+                    result = slangWords.search_by_definition(keyword);
+                }
+                if (result.length != 0) {
+                    for (int i = 0; i < result.length; i++) {
+                        String ss[] = result[i];
+                        tableModel.addRow(ss);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Not found!");
+                }
             }
         }
         else if (e.getSource() == back){

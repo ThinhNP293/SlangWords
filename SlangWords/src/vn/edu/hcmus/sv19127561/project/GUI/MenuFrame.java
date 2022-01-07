@@ -48,7 +48,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         reset = new JButton("RESET SLANG WORD LIST");
         reset.addActionListener(this);
 
-        random = new JButton("8. Random Slang Word");
+        random = new JButton("RANDOM SLANG WORD");
         random.addActionListener(this);
 
         slang_quiz = new JButton("SLANG QUIZ");
@@ -72,16 +72,14 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         Container con = this.getContentPane();
         con.setLayout(new BoxLayout(con, BoxLayout.Y_AXIS));
-        con.add(Box.createRigidArea(new Dimension(0, 10)));
         con.add(label);
-        con.add(Box.createRigidArea(new Dimension(0, 30)));
         con.add(center);
 
         // Setting Frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Menu Window");
         this.setVisible(true);
-        this.setSize(500, 700);
+        this.setSize(500, 500);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
@@ -111,6 +109,10 @@ public class MenuFrame extends JFrame implements ActionListener {
         else if (e.getSource() == slang_quiz){
             this.dispose();
             new SlangQuiz(slangWords);
+        }
+        else if (e.getSource() == definition_quiz){
+            this.dispose();
+            new DefinitionQuiz(slangWords);
         }
         else if (e.getSource() == reset){
             int n = JOptionPane.showConfirmDialog(this, "Do you really want to reset Slang Word?", "Confirm Reset",
