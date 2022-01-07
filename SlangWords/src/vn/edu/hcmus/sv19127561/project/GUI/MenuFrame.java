@@ -25,7 +25,7 @@ public class MenuFrame extends JFrame implements ActionListener {
     JButton slang_quiz;
     JButton definition_quiz;
 
-    SlangWords slangWords;
+    public static SlangWords slangWords;
 
     public MenuFrame(SlangWords sw) {
         slangWords = sw;
@@ -130,7 +130,7 @@ public class MenuFrame extends JFrame implements ActionListener {
             int n = JOptionPane.showConfirmDialog(this, "Do you really want to reset Slang Word?", "Confirm Reset",
                     JOptionPane.YES_NO_OPTION);
             if (n == 0) {
-                slangWords.load_slang_words("slang.txt");
+                slangWords.load_slang_words("original-slang.txt");
                 JOptionPane.showMessageDialog(this, "Reset successfully!");
             }
         }

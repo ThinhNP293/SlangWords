@@ -2,6 +2,8 @@ package vn.edu.hcmus.sv19127561.project;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -16,13 +18,16 @@ public class SlangWords {
 
 
 
+
     public SlangWords(){
-
+        load_history();
     }
-
 
     public void addHistory(String str){
         history.add(0, str);
+        if (history.size() > 20){
+            history.remove(20);
+        }
     }
 
     public ArrayList<String> getHistory(){ return history; }
@@ -57,8 +62,8 @@ public class SlangWords {
 
     public void load_slang_words(String file_name){
         try {
-            File myObj = new File(file_name);
-            Scanner myReader = new Scanner(myObj);
+            File file = new File(file_name);
+            Scanner myReader = new Scanner(file);
             String key_prev = "";
             while (myReader.hasNextLine()) {
                 String line = myReader.nextLine();
@@ -71,13 +76,60 @@ public class SlangWords {
                 else{
                     String[] data = line.split("`");
                     key_prev = data[0];
-                    definition.add(data[1]);
+                    String[] defList = data[1].split("\\|");
+                    definition.addAll(List.of(defList));
                     map.put(data[0], definition);
                 }
             }
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void save_slang_words(){
+        try{
+            FileWriter myWriter = new FileWriter("slang.txt");
+            myWriter.write("Slag`Meaning");
+            for (Map.Entry entry : map.entrySet()){
+                ArrayList<String> definitionList = (ArrayList<String>) entry.getValue();
+                String line = entry.getKey() + "`" + definitionList.get(0);
+                myWriter.write(line);
+                for (int i = 1; i < definitionList.size(); i++){
+                    myWriter.write("|" + definitionList.get(i));
+                }
+                myWriter.write("\n");
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void load_history(){
+        try {
+            File file = new File("history.txt");
+            Scanner myReader = new Scanner(file);
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine();
+                history.add(line);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void save_history(){
+        try{
+            FileWriter myWriter = new FileWriter("history.txt");
+            for (String line : history){
+                myWriter.write(line + "\n");
+            }
+            myWriter.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -101,6 +153,11 @@ public class SlangWords {
         }
 
         return result;
+    }
+
+    public boolean checkExist(String slang){
+        if (map.get(slang) != null) return true;
+        return false;
     }
 
     public String[][] search_by_slang(String slang){
@@ -158,6 +215,7 @@ public class SlangWords {
         }
         definitionList.add(definition);
         map.put(slang, definitionList);
+        save_slang_words();
     }
 
     public void edit_slang_words(String slang, String old_definition, String new_definition){
@@ -168,6 +226,7 @@ public class SlangWords {
                 definitionList.set(i, new_definition);
             }
         }
+        save_slang_words();
     }
 
     public void delete_slang_words(String slang, String definition){
@@ -180,6 +239,7 @@ public class SlangWords {
         }
         if (definitionList.size() == 0) map.remove(slang);
         else map.put(slang, definitionList);
+        save_slang_words();
     }
 
     public String random() {

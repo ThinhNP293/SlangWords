@@ -77,23 +77,23 @@ public class AddSlang extends JFrame implements ActionListener {
         if (e.getSource() == add){
             String slang = slangTf.getText();
             String def = definitionTf.getText();
-            if (slangWords.search_by_slang(slang) == null){
+            if (slangWords.checkExist(slang) == false){
                 slangWords.add_slang_words(slang, def, 0);
                 JOptionPane.showMessageDialog(this, "Add Successfully");
             }
             else {
                 Object[] options = { "Overwrite", "Duplicate" };
                 int n = JOptionPane.showOptionDialog(this,
-                        "Slang `" + slang + "` have already exist on  SlangWord  List", "A Silly Question",
+                        "Slang `" + slang + "` have already exist on  SlangWord  List", "Option",
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
                 if (n == 0) {
                     // Overwrite
                     slangWords.add_slang_words(slang, def, 0);
-                    JOptionPane.showMessageDialog(this, "Overwrite Slang Word Success.");
+                    JOptionPane.showMessageDialog(this, "Add successfully!");
                 } else if (n == 1) {
                     // Duplicate
                     slangWords.add_slang_words(slang, def, 1);
-                    JOptionPane.showMessageDialog(this, "Duplicate Slang Word Success.");
+                    JOptionPane.showMessageDialog(this, "Add successfully!");
                 }
             }
         }
