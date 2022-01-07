@@ -95,6 +95,9 @@ public class FindSlang extends JFrame implements ActionListener {
             String keyword = searchTf.getText();
             slangWords.addHistory(keyword);
             model.add(0, keyword);
+            if (model.size() > 20){
+                model.remove(20);
+            }
             slangWords.save_history();
             String[][] result = new String[0][];
             if (option.getSelectedIndex() == 0) {

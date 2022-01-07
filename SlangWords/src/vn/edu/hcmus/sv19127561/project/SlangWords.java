@@ -16,9 +16,6 @@ public class SlangWords {
     private Map<String, ArrayList<String>> map = new HashMap<>();
     private ArrayList<String> history = new ArrayList<>();
 
-
-
-
     public SlangWords(){
         load_history();
     }
@@ -165,7 +162,7 @@ public class SlangWords {
         ArrayList<String> def = new ArrayList<>();
         for(Map.Entry<String, ArrayList<String>> entry : map.entrySet()) {
             ArrayList<String> definition;
-            if (entry.getKey().toLowerCase().contains(slang.toLowerCase())) {
+            if (entry.getKey().toLowerCase().startsWith(slang.toLowerCase())) {
                 definition = entry.getValue();
                 for (String s : definition) {
                     key.add(entry.getKey());
@@ -191,7 +188,7 @@ public class SlangWords {
         {
             ArrayList<String> definitionList = entry.getValue();
             for (int i = 0; i < definitionList.size(); i++) {
-                if (definitionList.get(i).toLowerCase().contains(definition.toLowerCase())) {
+                if (definitionList.get(i).toLowerCase().startsWith(definition.toLowerCase())) {
                     key.add(entry.getKey());
                     def.add(definitionList.get(i));
                 }

@@ -35,6 +35,8 @@ public class DeleteSlang extends JFrame implements ActionListener, ListSelection
     String slang;
     String definition;
 
+    JComboBox option;
+
     DeleteSlang(SlangWords sw){
         slangWords = sw;
         label = new JLabel();
@@ -50,21 +52,18 @@ public class DeleteSlang extends JFrame implements ActionListener, ListSelection
         searchLb = new JLabel("Search");
         searchTf = new JTextField(25);
 
-        searchSlang = new JButton("SEARCH BY SLANG");
+        String opt[] = {"Slang", "Definition", "Show All"};
+        option = new JComboBox(opt);
+
+        searchSlang = new JButton("SEARCH");
         searchSlang.addActionListener(this);
-        searchDefinition = new JButton("SEARCH BY DEFINITION");
-        searchDefinition.addActionListener(this);
-        showAll = new JButton("SHOW ALL SLANG");
-        showAll.addActionListener(this);
 
         JPanel searchPanel = new JPanel();
         searchPanel.add(searchLb);
         searchPanel.add(searchTf);
+        searchPanel.add(searchSlang);
+        searchPanel.add(option);
 
-        JPanel searchBt = new JPanel();
-        searchBt.add(searchSlang);
-        searchBt.add(searchDefinition);
-        searchBt.add(showAll);
 
         // Table
         table = new JTable(tableModel);
@@ -83,7 +82,6 @@ public class DeleteSlang extends JFrame implements ActionListener, ListSelection
         //this.add(buttonPanel, BorderLayout.PAGE_END);
         this.add(label);
         this.add(searchPanel);
-        this.add(searchBt);
         this.add(scrollPane);
         this.add(buttonPanel);
 
@@ -103,43 +101,33 @@ public class DeleteSlang extends JFrame implements ActionListener, ListSelection
             delete.setEnabled(false);
             this.clearTable();
             String slang = searchTf.getText();
-            String[][] result = slangWords.search_by_slang(slang);
-            if (result.length != 0) {
+            searchTf.setText("");
+
+            if (option.getSelectedIndex() == 0 || option.getSelectedIndex() == 1) {
+                if (slang.equals("")) {
+                    JOptionPane.showMessageDialog(this, "Input field blank");
+                } else {
+                    String[][] result = new String[0][];
+                    if (option.getSelectedIndex() == 0)
+                        result = slangWords.search_by_slang(slang);
+                    else if (option.getSelectedIndex() == 1)
+                        result = slangWords.search_by_definition(slang);
+                    if (result.length != 0) {
+                        for (int i = 0; i < result.length; i++) {
+                            String ss[] = result[i];
+                            tableModel.addRow(ss);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Not found!");
+                    }
+                }
+            }
+            else {
+                String[][] result = slangWords.show_All_Slang();
                 for (int i = 0; i < result.length; i++) {
                     String ss[] = result[i];
                     tableModel.addRow(ss);
                 }
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "Not found!");
-            }
-        }
-        else if (e.getSource() == searchDefinition){
-            delete.setEnabled(false);
-            this.clearTable();
-            String definition = searchTf.getText();
-            String[][] result = slangWords.search_by_definition(definition);
-            if (result.length != 0) {
-                for (int i = 0; i < result.length; i++) {
-                    String ss[] = result[i];
-                    tableModel.addRow(ss);
-                }
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "Not found!");
-            }
-        }
-        else if (e.getSource() == showAll){
-            delete.setEnabled(false);
-            String[][] result = slangWords.show_All_Slang();
-            if (result != null) {
-                for (int i = 0; i < result.length; i++) {
-                    String ss[] = result[i];
-                    tableModel.addRow(ss);
-                }
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "Not found!");
             }
         }
         else if (e.getSource() == delete){

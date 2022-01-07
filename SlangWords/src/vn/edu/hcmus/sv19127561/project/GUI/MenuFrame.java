@@ -14,9 +14,7 @@ import java.awt.event.ActionListener;
  * Description: ...
  */
 public class MenuFrame extends JFrame implements ActionListener {
-    JButton find_by_slang;
-    JButton find_by_definition;
-    JButton history;
+    JButton search;
     JButton add;
     JButton edit;
     JButton delete;
@@ -35,42 +33,34 @@ public class MenuFrame extends JFrame implements ActionListener {
         label.setAlignmentX(CENTER_ALIGNMENT);
 
 
-        find_by_slang = new JButton("1. Find Definition by Slang");
-        find_by_slang.addActionListener(this);
+        search = new JButton("SEARCH");
+        search.addActionListener(this);
 
-        find_by_definition = new JButton("2. Find Slang by Definition");
-        find_by_definition.addActionListener(this);
-
-        history = new JButton("3. History");
-        history.addActionListener(this);
-
-        add = new JButton("4. Add Slang Word");
+        add = new JButton("ADD SLANG WORD");
         add.addActionListener(this);
 
-        edit = new JButton("5. Edit Slang Word");
+        edit = new JButton("EDIT SLANG WORD");
         edit.addActionListener(this);
 
-        delete = new JButton("6. Delete Slang Word");
+        delete = new JButton("DELETE SLANG WORD");
         delete.addActionListener(this);
 
-        reset = new JButton("7. Reset Slang Word");
+        reset = new JButton("RESET SLANG WORD LIST");
         reset.addActionListener(this);
 
         random = new JButton("8. Random Slang Word");
         random.addActionListener(this);
 
-        slang_quiz = new JButton("9. Slang Quiz");
+        slang_quiz = new JButton("SLANG QUIZ");
         slang_quiz.addActionListener(this);
 
-        definition_quiz = new JButton("10. Definition Quiz");
+        definition_quiz = new JButton("DEFINITION QUIZ");
         definition_quiz.addActionListener(this);
 
         JPanel center = new JPanel();
         // panelCenter.setBackground(Color.gray);
-        center.setLayout(new GridLayout(10, 1, 20, 20));
-        center.add(find_by_slang);
-        center.add(find_by_definition);
-        center.add(history);
+        center.setLayout(new GridLayout(10, 1, 0, 10));
+        center.add(search);
         center.add(add);
         center.add(edit);
         center.add(delete);
@@ -98,13 +88,9 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == find_by_slang){
+        if (e.getSource() == search){
             this.dispose();
             new FindSlang(slangWords);
-        }
-        else if (e.getSource() == find_by_definition){
-            this.dispose();
-            new FindDefinition(slangWords);
         }
         else if (e.getSource() == add){
             this.dispose();

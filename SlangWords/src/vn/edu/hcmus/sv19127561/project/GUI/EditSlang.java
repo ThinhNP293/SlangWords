@@ -22,6 +22,7 @@ public class EditSlang extends JFrame implements ActionListener, TableModelListe
     JLabel searchLb;
     JTextField searchTf;
     JLabel label;
+    JComboBox option;
 
     String col[] = {"No.", "Slang", "Definition"};
     DefaultTableModel tableModel = new DefaultTableModel(col, 0);
